@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enzo Schiano — BTS SIO SISR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --bg2: #111111;
+      --bg3: #161616;
+      --accent: #e0e0e0;
+      --accent2: #ffffff;
+      --text: #f0f0f0;
+      --muted: #777777;
+      --border: rgba(255,255,255,0.08);
+      --card: rgba(255,255,255,0.03);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3rem;
+      backdrop-filter: blur(20px);
+      background: rgba(12,12,12,0.88);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .nav-logo span { color: var(--muted); }
+
+    .nav-tabs {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.3rem;
+    }
+
+    .nav-tabs li button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-tabs li button:hover { color: var(--text); }
+    .nav-tabs li button.active {
+      background: rgba(255,255,255,0.1);
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 3rem;
+    }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 3rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+      top: -80px; right: -80px;
+      pointer-events: none;
+    }
+
+    .hero-content { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaaaaa;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.4; transform:scale(1.4); }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 .highlight {
+      background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 460px;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #ffffff; color: #0c0c0c;
+      padding: 0.85rem 1.8rem; border-radius: 8px;
+      text-decoration: none; font-weight: 700; font-size: 0.9rem;
+      border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary:hover { background: #cccccc; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,255,255,0.1); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent; color: var(--text);
+      padding: 0.85rem 1.8rem; border-radius: 8px;
+      text-decoration: none; font-weight: 500; font-size: 0.9rem;
+      border: 1px solid var(--border); cursor: pointer; transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.3); color: #ffffff; transform: translateY(-2px); }
+
+    .hero-meta {
+      display: flex; gap: 3rem;
+      margin-top: 4rem;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .hero-meta-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .hero-meta-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-top: 0.2rem; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    /* TIMELINE */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content:''; position:absolute; left:0; top:0; bottom:0;
+      width:2px; background:linear-gradient(180deg,#ffffff,transparent); border-radius:2px;
+    }
+    .timeline-item { padding-left: 2.5rem; margin-bottom: 3rem; position: relative; }
+    .timeline-item::before {
+      content:''; position:absolute; left:-5px; top:6px;
+      width:12px; height:12px; background:#ffffff; border-radius:50%; border:3px solid var(--bg2);
+    }
+    .timeline-date { font-size:0.75rem; color:#aaa; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.4rem; }
+    .timeline-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:0.2rem; }
+    .timeline-company { color:var(--muted); font-size:0.875rem; margin-bottom:0.6rem; }
+    .timeline-desc { color:var(--muted); font-size:0.875rem; line-height:1.7; }
+    .timeline-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.75rem; }
+    .tag { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#ccc; font-size:0.72rem; padding:0.2rem 0.65rem; border-radius:100px; font-weight:500; }
+
+    /* FORMATION */
+    .formation-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    .formation-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; transition:all 0.3s; position:relative; overflow:hidden; }
+    .formation-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,#ffffff,#555555); opacity:0; transition:opacity 0.3s; }
+    .formation-card:hover { border-color:rgba(255,255,255,0.2); transform:translateY(-4px); box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+    .formation-card:hover::before { opacity:1; }
+    .formation-year { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:#aaa; font-weight:600; margin-bottom:0.75rem; }
+    .formation-degree { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; margin-bottom:0.35rem; }
+    .formation-school { color:var(--muted); font-size:0.875rem; }
+
+    /* SKILLS */
+    #competences { background: var(--bg3); }
+    .skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    .skill-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem; transition:all 0.3s; }
+    .skill-card:hover { border-color:rgba(255,255,255,0.2); transform:translateY(-3px); box-shadow:0 16px 32px rgba(0,0,0,0.25); }
+    .skill-icon { width:44px; height:44px; background:rgba(255,255,255,0.06); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; font-size:1.3rem; }
+    .skill-title { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:0.75rem; }
+    .skill-items { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .skill-pill { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.06); color:var(--muted); font-size:0.72rem; padding:0.2rem 0.6rem; border-radius:100px; }
+
+    .bts-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5rem; margin-top:1rem; }
+    .bts-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem; }
+    .bts-number { font-family:'Syne',sans-serif; font-size:2.5rem; font-weight:800; color:rgba(255,255,255,0.06); line-height:1; margin-bottom:0.5rem; }
+    .bts-title { font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; margin-bottom:1rem; color:#ccc; }
+    .bts-items { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+    .bts-items li { font-size:0.82rem; color:var(--muted); padding-left:1rem; position:relative; line-height:1.5; }
+    .bts-items li::before { content:'›'; position:absolute; left:0; color:#888; }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+    .contact-wrapper { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    .contact-desc { color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+    .contact-links { display:flex; flex-direction:column; gap:1rem; }
+    .contact-link-item { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; background:var(--card); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.2s; }
+    .contact-link-item:hover { border-color:rgba(255,255,255,0.2); transform:translateX(4px); }
+    .contact-link-icon { width:36px; height:36px; background:rgba(255,255,255,0.06); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .contact-link-label { font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+    .contact-link-value { font-weight:500; font-size:0.9rem; }
+    .contact-form { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:2.5rem; }
+    .form-group { margin-bottom:1.25rem; }
+    label { display:block; font-size:0.78rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.5rem; }
+    input, textarea { width:100%; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1rem; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.9rem; transition:border-color 0.2s; outline:none; }
+    input:focus, textarea:focus { border-color:rgba(255,255,255,0.3); }
+    textarea { resize:vertical; min-height:120px; }
+
+    /* VEILLE */
+    .veille-hero { padding: 8rem 3rem 3rem; position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+    .veille-date-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:100px; padding:0.35rem 1rem; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:#aaa; margin-bottom:1.5rem; }
+    .veille-hero p { color:var(--muted); font-size:1rem; max-width:560px; line-height:1.7; }
+
+    .veille-section { padding: 3rem 3rem; position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+    .veille-section-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.75rem; }
+    .veille-section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    .veille-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:1.25rem; margin-bottom:2.5rem; }
+    .veille-cards.three { grid-template-columns:repeat(3,1fr); }
+
+    .veille-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem; transition:all 0.25s; }
+    .veille-card:hover { border-color:rgba(255,255,255,0.18); transform:translateY(-3px); box-shadow:0 16px 32px rgba(0,0,0,0.3); }
+    .veille-card-icon { font-size:1.6rem; margin-bottom:0.75rem; }
+    .veille-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:0.6rem; }
+    .veille-card-text { color:var(--muted); font-size:0.875rem; line-height:1.7; }
+
+    .veille-compare { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:2.5rem; }
+    .compare-col { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem; }
+    .compare-header { font-family:'Syne',sans-serif; font-weight:800; font-size:1rem; margin-bottom:1.25rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0.5rem; }
+    .compare-badge { font-size:0.65rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:0.2rem 0.6rem; border-radius:100px; }
+    .compare-badge.old { background:rgba(255,255,255,0.07); color:#888; }
+    .compare-badge.new { background:rgba(255,255,255,0.12); color:#ddd; }
+    .compare-list { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
+    .compare-list li { font-size:0.875rem; color:var(--muted); padding-left:1.25rem; position:relative; line-height:1.5; }
+    .compare-list li::before { content:'·'; position:absolute; left:0; font-size:1.2rem; line-height:1.1; color:#555; }
+    .compare-list li.plus { color:#ccc; }
+    .compare-list li.plus::before { content:'+'; color:#aaa; font-size:0.9rem; line-height:1.4; font-weight:700; }
+
+    .veille-sources { display:flex; flex-direction:column; gap:0.75rem; margin-bottom:2.5rem; }
+    .source-item { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; background:var(--card); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.2s; }
+    .source-item:hover { border-color:rgba(255,255,255,0.2); transform:translateX(4px); }
+    .source-icon { width:36px; height:36px; background:rgba(255,255,255,0.05); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .source-label { font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+    .source-title { font-weight:500; font-size:0.9rem; }
+    .source-arrow { margin-left:auto; color:var(--muted); font-size:1rem; }
+
+    .info-banner { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.25rem 1.5rem; display:flex; gap:1rem; align-items:flex-start; margin-bottom:2rem; }
+    .info-banner-icon { font-size:1.25rem; flex-shrink:0; margin-top:0.1rem; }
+    .info-banner-text { font-size:0.875rem; color:var(--muted); line-height:1.6; }
+    .info-banner-text strong { color:var(--text); }
+
+    /* FOOTER */
+    footer { background:var(--bg); border-top:1px solid var(--border); padding:2rem 3rem; text-align:center; color:var(--muted); font-size:0.85rem; position:relative; z-index:1; }
+    footer span { color:var(--accent); }
+
+    /* REVEAL */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      section, .veille-hero, .veille-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .formation-grid, .contact-wrapper, .veille-compare { grid-template-columns: 1fr; }
+      .skills-grid, .bts-grid, .veille-cards.three { grid-template-columns: 1fr 1fr; }
+      .veille-cards { grid-template-columns: 1fr 1fr; }
+      .hero-meta { gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .skills-grid, .bts-grid, .veille-cards, .veille-cards.three { grid-template-columns: 1fr; }
+      h1 { font-size: 3rem; }
+      .nav-tabs li button { padding: 0.4rem 0.6rem; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <button class="nav-logo" onclick="showPage('accueil')">Enzo<span>.</span>Schiano</button>
+    <ul class="nav-tabs">
+      <li><button class="active" onclick="showPage('accueil')">Accueil</button></li>
+      <li><button onclick="showPage('cv')">CV</button></li>
+      <li><button onclick="showPage('competences')">Compétences</button></li>
+      <li><button onclick="showPage('veille')">Veille</button></li>
+      <li><button onclick="showPage('contact')">Contact</button></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE ACCUEIL -->
+  <div id="page-accueil" class="page active">
+    <section id="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div class="hero-tag">Disponible — BTS SIO SISR</div>
+        <h1>Enzo<br><span class="highlight">Schiano</span></h1>
+        <p class="hero-subtitle">Technicien en administration système &amp; réseau. Passionné par les infrastructures, la cybersécurité et les solutions d'entreprise.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('contact')">Me contacter →</button>
+          <button class="btn-outline" onclick="showPage('competences')">Voir mes compétences</button>
+        </div>
+        <div class="hero-meta">
+          <div><div class="hero-meta-label">Localisation</div><div class="hero-meta-value">Pau, France</div></div>
+          <div><div class="hero-meta-label">Formation</div><div class="hero-meta-value">BTS SIO SISR</div></div>
+          <div><div class="hero-meta-label">Stages</div><div class="hero-meta-value">4× CI Solutions</div></div>
+        </div>
+      </div>
+    </section>
+    <footer><p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p></footer>
+  </div>
+
+  <!-- PAGE CV -->
+  <div id="page-cv" class="page">
+    <section id="experience" style="padding-top:6rem; background:var(--bg2);">
+      <div class="section-inner">
+        <p class="section-label reveal">Parcours</p>
+        <h2 class="reveal">Expérience<br>Professionnelle</h2>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-date">Mai – Juin 2025</div>
+            <div class="timeline-title">Stagiaire / Intérimaire — Administration Système &amp; Réseau</div>
+            <div class="timeline-company">CI Solutions · Lons</div>
+            <p class="timeline-desc">Installation et administration de serveurs et machines Windows. Dépannage et support client à distance via AnyDesk. Changement de matériel réseau (switch, firewall, imprimantes).</p>
+            <div class="timeline-tags"><span class="tag">Windows Server</span><span class="tag">AnyDesk</span><span class="tag">Switch</span><span class="tag">Firewall</span></div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">Oct. – Déc. 2023</div>
+            <div class="timeline-title">Stagiaire / Intérimaire — Administration Système &amp; Réseau</div>
+            <div class="timeline-company">CI Solutions · Lons</div>
+            <p class="timeline-desc">Maintenance préventive et corrective des infrastructures réseau. Support utilisateurs et résolution d'incidents techniques.</p>
+            <div class="timeline-tags"><span class="tag">Active Directory</span><span class="tag">Réseau</span><span class="tag">Support</span></div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">Jan. – Mars 2023</div>
+            <div class="timeline-title">Stagiaire — Administration Système &amp; Réseau</div>
+            <div class="timeline-company">CI Solutions · Lons</div>
+            <p class="timeline-desc">Déploiement de solutions réseau. Administration des services système et participation aux projets d'infrastructure clients.</p>
+            <div class="timeline-tags"><span class="tag">PROXMOX</span><span class="tag">Virtualisation</span><span class="tag">PowerShell</span></div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">Mai – Juin 2022</div>
+            <div class="timeline-title">Stagiaire — Administration Système &amp; Réseau</div>
+            <div class="timeline-company">CI Solutions · Lons</div>
+            <p class="timeline-desc">Premier stage en entreprise. Découverte de l'environnement professionnel IT et participation aux opérations d'administration système.</p>
+            <div class="timeline-tags"><span class="tag">Windows</span><span class="tag">Réseau</span><span class="tag">Infrastructure</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="divider"></div>
+    <section>
+      <div class="section-inner">
+        <p class="section-label reveal">Diplômes</p>
+        <h2 class="reveal">Formation</h2>
+        <div class="formation-grid">
+          <div class="formation-card reveal">
+            <div class="formation-year">2024 – 2026 · En cours</div>
+            <div class="formation-degree">BTS SIO — Option SISR</div>
+            <div class="formation-school">Solutions d'Infrastructure, Systèmes et Réseaux<br>Lycée St John Perse · Pau</div>
+          </div>
+          <div class="formation-card reveal">
+            <div class="formation-year">2021 – 2024 · Obtenu</div>
+            <div class="formation-degree">BAC Pro Systèmes Numériques</div>
+            <div class="formation-school">Option RISC — Réseaux Informatiques &amp; Systèmes Communiquants<br>Lycée St Joseph · Hasparren</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer><p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p></footer>
+  </div>
+
+  <!-- PAGE COMPÉTENCES -->
+  <div id="page-competences" class="page">
+    <section id="competences" style="padding-top:6rem; background:var(--bg3);">
+      <div class="section-inner">
+        <p class="section-label reveal">Savoir-faire</p>
+        <h2 class="reveal">Compétences<br>Techniques</h2>
+        <div class="skills-grid">
+          <div class="skill-card reveal"><div class="skill-icon">🌐</div><div class="skill-title">Réseaux</div><div class="skill-items"><span class="skill-pill">IP / IPv6</span><span class="skill-pill">DHCP</span><span class="skill-pill">VLAN</span><span class="skill-pill">Switch</span><span class="skill-pill">Routeur</span><span class="skill-pill">Spanning Tree</span><span class="skill-pill">NAPT</span><span class="skill-pill">Bande passante</span></div></div>
+          <div class="skill-card reveal"><div class="skill-icon">🖥️</div><div class="skill-title">Systèmes</div><div class="skill-items"><span class="skill-pill">Windows Server</span><span class="skill-pill">Active Directory</span><span class="skill-pill">GPO</span><span class="skill-pill">Samba</span><span class="skill-pill">PROXMOX</span><span class="skill-pill">PowerShell</span><span class="skill-pill">FOG</span></div></div>
+          <div class="skill-card reveal"><div class="skill-icon">🔒</div><div class="skill-title">Cybersécurité</div><div class="skill-items"><span class="skill-pill">PfSense</span><span class="skill-pill">SSH</span><span class="skill-pill">Fail2ban</span><span class="skill-pill">Proxy</span><span class="skill-pill">Sauvegarde</span><span class="skill-pill">Haute dispo.</span><span class="skill-pill">FTP</span></div></div>
+          <div class="skill-card reveal"><div class="skill-icon">☁️</div><div class="skill-title">Cloud &amp; Stockage</div><div class="skill-items"><span class="skill-pill">NextCloud</span><span class="skill-pill">Cloud</span><span class="skill-pill">Lecteurs réseaux</span><span class="skill-pill">Réplication</span><span class="skill-pill">Tâches planifiées</span></div></div>
+          <div class="skill-card reveal"><div class="skill-icon">📡</div><div class="skill-title">Téléphonie &amp; Sans-fil</div><div class="skill-items"><span class="skill-pill">ToIP</span><span class="skill-pill">Asterisk</span><span class="skill-pill">WiFi</span><span class="skill-pill">Bornes d'accès</span></div></div>
+          <div class="skill-card reveal"><div class="skill-icon">🌍</div><div class="skill-title">Web &amp; Serveurs</div><div class="skill-items"><span class="skill-pill">DNS</span><span class="skill-pill">LAMP</span><span class="skill-pill">WordPress</span><span class="skill-pill">HTML/CSS/PHP</span><span class="skill-pill">Bind9</span><span class="skill-pill">Odoo</span></div></div>
+        </div>
+        <h2 class="reveal" style="margin-top:4rem;font-size:1.75rem;">Référentiel BTS SIO SISR</h2>
+        <div class="bts-grid">
+          <div class="bts-card reveal"><div class="bts-number">01</div><div class="bts-title">Support &amp; Mise à disposition</div><ul class="bts-items"><li>Gestion du patrimoine informatique</li><li>Réponse aux incidents &amp; assistance</li><li>Présence en ligne de l'organisation</li><li>Travail en mode projet</li><li>Mise à disposition des services</li><li>Développement professionnel</li></ul></div>
+          <div class="bts-card reveal"><div class="bts-number">02</div><div class="bts-title">Administration Systèmes &amp; Réseaux</div><ul class="bts-items"><li>Conception d'une solution d'infrastructure</li><li>Installation, test &amp; déploiement</li><li>Exploitation, dépannage &amp; supervision</li></ul></div>
+          <div class="bts-card reveal"><div class="bts-number">03</div><div class="bts-title">Cybersécurité des Services</div><ul class="bts-items"><li>Protection des données personnelles</li><li>Identité numérique de l'organisation</li><li>Sécurisation des équipements</li><li>Disponibilité &amp; confidentialité</li><li>Cybersécurisation d'infrastructure</li></ul></div>
+        </div>
+      </div>
+    </section>
+    <footer><p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p></footer>
+  </div>
+
+  <!-- PAGE VEILLE -->
+  <div id="page-veille" class="page">
+    <div class="veille-hero">
+      <div class="veille-date-badge">📡 Veille technologique · 2024–2025</div>
+      <h1 class="reveal">Windows<br><span class="highlight">Server 2025</span></h1>
+      <p class="reveal">Analyse des nouveautés, comparaison avec Server 2022, enjeux de cybersécurité et ressources clés de la dernière version serveur de Microsoft, disponible depuis le 1er novembre 2024.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="veille-section">
+      <div class="veille-section-title reveal">🚀 Nouveautés &amp; Fonctionnalités</div>
+      <div class="info-banner reveal">
+        <div class="info-banner-icon">ℹ️</div>
+        <div class="info-banner-text"><strong>Windows Server 2025</strong> a été annoncé lors du salon Microsoft Ignite 2024 et est passé en version stable (Generally Available) le <strong>1er novembre 2024</strong>. Il succède à Windows Server 2022 avec des améliorations majeures en sécurité, performances et cloud hybride.</div>
+      </div>
+      <div class="veille-cards reveal">
+        <div class="veille-card">
+          <div class="veille-card-icon">🔥</div>
+          <div class="veille-card-title">Hotpatching sans redémarrage</div>
+          <div class="veille-card-text">Les mises à jour de sécurité peuvent s'appliquer sans redémarrer le serveur, via Azure Arc. Avec Server 2022, un redémarrage mensuel était obligatoire. En 2025, seuls environ 4 redémarrages par an sont nécessaires, uniquement pour les mises à jour non-sécuritaires.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">⚡</div>
+          <div class="veille-card-title">Performances de stockage NVMe</div>
+          <div class="veille-card-text">Les serveurs équipés de SSD NVMe gagnent jusqu'à 70 % d'IOPS supplémentaires. Le protocole NVMe-over-Fabrics est supporté nativement, permettant d'utiliser des SSD distants en FiberChannel ou Ethernet comme s'ils étaient locaux.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🤖</div>
+          <div class="veille-card-title">Prêt pour l'IA &amp; GPU</div>
+          <div class="veille-card-text">Le partitionnement GPU (GPU-P) permet de partager une carte graphique entre plusieurs machines virtuelles dans un cluster. Live Migration entre serveurs GPU-P incluse. Conçu pour les workloads IA et l'inférence en périphérie.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🏗️</div>
+          <div class="veille-card-title">Hyper-V renforcé</div>
+          <div class="veille-card-text">Cluster jusqu'à 64 serveurs physiques pour 8 000 VMs. Les VMs peuvent atteindre 2 048 processeurs virtuels et 240 To de RAM. Les VMs Génération 2 deviennent le choix par défaut, abandonnant progressivement la Génération 1.</div>
+        </div>
+      </div>
+      <div class="veille-cards three reveal">
+        <div class="veille-card">
+          <div class="veille-card-icon">📁</div>
+          <div class="veille-card-title">SMB amélioré</div>
+          <div class="veille-card-text">SMB over QUIC étendu aux éditions Standard et Datacenter. La signature SMB est activée par défaut, l'authentification NTLM peut être désactivée pour les connexions SMB sortantes pour réduire la surface d'attaque.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🔗</div>
+          <div class="veille-card-title">Intégration Azure Arc</div>
+          <div class="veille-card-text">Connexion plus simple aux services Azure depuis des serveurs locaux. Hotpatch, sauvegarde automatique Azure Backup, outils d'analyse prédictive et connexion native aux services OpenAI disponibles via Azure Arc.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🖥️</div>
+          <div class="veille-card-title">Interface modernisée</div>
+          <div class="veille-card-text">Bureau aligné sur Windows 11, nouveau Gestionnaire des tâches, Windows Terminal natif, Wi-Fi et Bluetooth activables, DTrace intégré pour le monitoring système en temps réel.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" style="max-width:1100px;margin:0 auto;"></div>
+
+    <div class="veille-section">
+      <div class="veille-section-title reveal">⚖️ Comparaison avec Windows Server 2022</div>
+      <div class="veille-compare reveal">
+        <div class="compare-col">
+          <div class="compare-header">Windows Server 2022 <span class="compare-badge old">Précédent</span></div>
+          <ul class="compare-list">
+            <li>Redémarrage mensuel obligatoire pour les patches</li>
+            <li>Hotpatch uniquement sur Azure Edition (cloud)</li>
+            <li>SMB over QUIC réservé à Azure Edition</li>
+            <li>Pas de support ARM64 natif</li>
+            <li>Hyper-V sans GPU Pooling ni Live Migration GPU</li>
+            <li>Active Directory peu modifié depuis 2016</li>
+            <li>NVMe-over-Fabrics non supporté</li>
+            <li>VMs Génération 1 par défaut</li>
+            <li>Credential Guard désactivé par défaut</li>
+            <li>Pas de DTrace natif</li>
+          </ul>
+        </div>
+        <div class="compare-col">
+          <div class="compare-header">Windows Server 2025 <span class="compare-badge new">Nouveau</span></div>
+          <ul class="compare-list">
+            <li class="plus">Hotpatch via Azure Arc → ~4 redémarrages/an</li>
+            <li class="plus">Hotpatch disponible hors cloud (avec Arc)</li>
+            <li class="plus">SMB over QUIC sur Standard &amp; Datacenter</li>
+            <li class="plus">Support natif ARM64</li>
+            <li class="plus">GPU Pooling et Live Migration GPU-P</li>
+            <li class="plus">Active Directory nouvelle génération (32k DB)</li>
+            <li class="plus">NVMe-over-Fabrics natif (+70% IOPS)</li>
+            <li class="plus">VMs Génération 2 par défaut</li>
+            <li class="plus">Credential Guard activé par défaut</li>
+            <li class="plus">DTrace intégré nativement</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" style="max-width:1100px;margin:0 auto;"></div>
+
+    <div class="veille-section">
+      <div class="veille-section-title reveal">🔒 Cybersécurité</div>
+      <div class="veille-cards three reveal">
+        <div class="veille-card">
+          <div class="veille-card-icon">🛡️</div>
+          <div class="veille-card-title">Credential Guard par défaut</div>
+          <div class="veille-card-text">Isole les processus d'authentification dans un environnement sécurisé basé sur la virtualisation (VBS). Protège contre les attaques Pass-the-Hash et Golden Ticket sur Active Directory.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🔐</div>
+          <div class="veille-card-title">TLS 1.3 &amp; DNS over HTTPS</div>
+          <div class="veille-card-text">TLS 1.3 pris en charge nativement pour des communications réseau sécurisées. Le DNS over HTTPS (DoH) chiffre les requêtes DNS, empêchant leur interception ou manipulation par des attaquants.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🧠</div>
+          <div class="veille-card-title">Defender for Endpoint + IA</div>
+          <div class="veille-card-text">Intégration renforcée avec détection des anomalies en temps réel basée sur l'IA. Alertes proactives sur les menaces via le Windows Admin Center. Analyse comportementale des processus.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🏰</div>
+          <div class="veille-card-title">VBS — Sécurité par virtualisation</div>
+          <div class="veille-card-text">Les processus critiques sont isolés dans un environnement Hyper-V sécurisé. Même en cas de compromission du noyau Windows, les données sensibles restent inaccessibles aux attaquants.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">📝</div>
+          <div class="veille-card-title">Signature SMB par défaut</div>
+          <div class="veille-card-text">Tous les paquets SMB sont signés par défaut, empêchant les attaques Man-in-the-Middle sur les partages réseau. Désactivation possible de NTLM pour les connexions sortantes.</div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-card-icon">🔑</div>
+          <div class="veille-card-title">Active Directory renforcé</div>
+          <div class="veille-card-text">Nouvelle taille de page de base de données AD (32 Ko optionnel) améliorant scalabilité et performance. Protections renforcées contre les attaques Kerberos et sur les comptes privilégiés.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" style="max-width:1100px;margin:0 auto;"></div>
+
+    <div class="veille-section">
+      <div class="veille-section-title reveal">📚 Sources &amp; Liens Utiles</div>
+      <div class="veille-sources reveal">
+        <a href="https://learn.microsoft.com/fr-fr/windows-server/get-started/whats-new-windows-server-2025" target="_blank" class="source-item">
+          <div class="source-icon">📖</div>
+          <div><div class="source-label">Documentation officielle</div><div class="source-title">Microsoft Learn — Nouveautés de Windows Server 2025</div></div>
+          <div class="source-arrow">↗</div>
+        </a>
+        <a href="https://www.it-connect.fr/windows-server-2025-est-disponible-quelles-sont-les-nouveautes/" target="_blank" class="source-item">
+          <div class="source-icon">🖥️</div>
+          <div><div class="source-label">IT-Connect.fr</div><div class="source-title">Windows Server 2025 est disponible : quelles sont les nouveautés ?</div></div>
+          <div class="source-arrow">↗</div>
+        </a>
+        <a href="https://www.lemagit.fr/actualites/366613306/Windows-Server-2025-ce-qui-change-des-novembre-2024" target="_blank" class="source-item">
+          <div class="source-icon">📰</div>
+          <div><div class="source-label">LeMagIT</div><div class="source-title">Windows Server 2025 : ce qui change — stockage, virtualisation, sécurité</div></div>
+          <div class="source-arrow">↗</div>
+        </a>
+        <a href="https://fr.wikipedia.org/wiki/Windows_Server_2025" target="_blank" class="source-item">
+          <div class="source-icon">🌐</div>
+          <div><div class="source-label">Wikipédia</div><div class="source-title">Windows Server 2025 — Présentation générale et historique</div></div>
+          <div class="source-arrow">↗</div>
+        </a>
+        <a href="https://www.dell.com/fr-fr/blog/windows-server-2025-3-nouveautes-qui-sont-autant-de-raisons-de-migrer/" target="_blank" class="source-item">
+          <div class="source-icon">🏢</div>
+          <div><div class="source-label">Dell Technologies Blog</div><div class="source-title">Windows Server 2025 : 3 nouveautés clés pour migrer</div></div>
+          <div class="source-arrow">↗</div>
+        </a>
+      </div>
+    </div>
+
+    <footer><p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p></footer>
+  </div>
+
+  <!-- PAGE CONTACT -->
+  <div id="page-contact" class="page">
+    <section id="contact" style="padding-top:6rem; background:var(--bg2);">
+      <div class="section-inner">
+        <div class="contact-wrapper">
+          <div class="contact-info reveal">
+            <p class="section-label">Disponible</p>
+            <h2>Prenons<br>Contact</h2>
+            <p class="contact-desc">N'hésitez pas à me contacter pour toute opportunité de stage, d'alternance ou pour échanger sur mes compétences.</p>
+            <div class="contact-links">
+              <a href="mailto:schianoenzo26@gmail.com" class="contact-link-item">
+                <div class="contact-link-icon">✉️</div>
+                <div><div class="contact-link-label">Email</div><div class="contact-link-value">schianoenzo26@gmail.com</div></div>
+              </a>
+              <a href="tel:+33638867855" class="contact-link-item">
+                <div class="contact-link-icon">📱</div>
+                <div><div class="contact-link-label">Téléphone</div><div class="contact-link-value">+33 06 38 86 78 55</div></div>
+              </a>
+              <div class="contact-link-item">
+                <div class="contact-link-icon">📍</div>
+                <div><div class="contact-link-label">Localisation</div><div class="contact-link-value">Pau, France</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="contact-form reveal">
+            <div class="form-group"><label>Votre nom</label><input type="text" placeholder="Jean Dupont"></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="jean@exemple.com"></div>
+            <div class="form-group"><label>Sujet</label><input type="text" placeholder="Opportunité de stage..."></div>
+            <div class="form-group"><label>Message</label><textarea placeholder="Votre message..."></textarea></div>
+            <button class="btn-primary" style="width:100%;justify-content:center;">Envoyer le message →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer><p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p></footer>
+  </div>
+
+  <script>
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      const labels = ['accueil','cv','competences','veille','contact'];
+      const idx = labels.indexOf(name);
+      document.querySelectorAll('.nav-tabs button')[idx]?.classList.add('active');
+      window.scrollTo(0, 0);
+      setTimeout(triggerReveal, 60);
+    }
+
+    function triggerReveal() {
+      const reveals = document.querySelectorAll('.page.active .reveal');
+      reveals.forEach(el => el.classList.remove('visible'));
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), (i % 6) * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.07 });
+      reveals.forEach(el => observer.observe(el));
+    }
+
+    triggerReveal();
+  </script>
+</body>
+</html>
