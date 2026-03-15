@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enzo Schiano — BTS SIO SISR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --bg2: #111111;
+      --bg3: #161616;
+      --accent: #e0e0e0;
+      --accent2: #ffffff;
+      --text: #f0f0f0;
+      --muted: #777777;
+      --border: rgba(255,255,255,0.08);
+      --card: rgba(255,255,255,0.03);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      backdrop-filter: blur(20px);
+      background: rgba(10,13,20,0.8);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 3rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
+      bottom: 0;
+      left: 200px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaaaaa;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 .highlight {
+      background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      margin-top: 1.5rem;
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      color: #0c0c0c;
+      padding: 0.85rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #cccccc;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,255,255,0.12);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--text);
+      padding: 0.85rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,0.4);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .hero-meta-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .hero-meta-value {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTIONS */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 3rem;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg2); }
+
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, #ffffff, transparent);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      padding-left: 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      background: #ffffff;
+      border-radius: 50%;
+      border: 3px solid var(--bg2);
+    }
+
+    .timeline-date {
+      font-size: 0.75rem;
+      color: #aaaaaa;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-company {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .tag {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #cccccc;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 100px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* FORMATION */
+    .formation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .formation-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formation-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ffffff, #555555);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .formation-card:hover {
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .formation-card:hover::before { opacity: 1; }
+
+    .formation-year {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #aaaaaa;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .formation-degree {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .formation-school {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    /* COMPETENCES */
+    #competences { background: var(--bg3); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: all 0.3s;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+    }
+
+    .skill-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .skill-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .skill-pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+    }
+
+    /* BTS COMPETENCES */
+    .bts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .bts-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .bts-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.07);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .bts-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: #cccccc;
+    }
+
+    .bts-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .bts-items li {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .bts-items li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info h2 { margin-bottom: 1rem; }
+
+    .contact-desc {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .contact-link-item:hover {
+      border-color: rgba(79,142,247,0.3);
+      transform: translateX(4px);
+    }
+
+    .contact-link-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(79,142,247,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-link-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .contact-link-value {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .contact-form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer span { color: var(--accent); }
+
+    /* SCROLL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 6rem 1.5rem 3rem; }
+      .formation-grid, .contact-wrapper { grid-template-columns: 1fr; }
+      .skills-grid, .bts-grid { grid-template-columns: 1fr 1fr; }
+      .hero-meta { gap: 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .skills-grid, .bts-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 3rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">Enzo<span>.</span>Schiano</a>
+    <ul class="nav-links">
+      <li><a href="#experience">Expérience</a></li>
+      <li><a href="#formation">Formation</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Disponible — BTS SIO SISR</div>
+      <h1>Enzo<br><span class="highlight">Schiano</span></h1>
+      <p class="hero-subtitle">Technicien en administration système & réseau. Passionné par les infrastructures, la cybersécurité et les solutions d'entreprise.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Me contacter →</a>
+        <a href="#competences" class="btn-outline">Voir mes compétences</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Localisation</span>
+          <span class="hero-meta-value">Pau, France</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Formation</span>
+          <span class="hero-meta-value">BTS SIO SISR</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Stages</span>
+          <span class="hero-meta-value">4× CI Solutions</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <p class="section-label reveal">Parcours</p>
+      <h2 class="reveal">Expérience<br>Professionnelle</h2>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Mai – Juin 2025</div>
+          <div class="timeline-title">Stagiaire / Intérimaire — Administration Système & Réseau</div>
+          <div class="timeline-company">CI Solutions · Lons</div>
+          <p class="timeline-desc">Installation et administration de serveurs et machines Windows. Dépannage et support client à distance via AnyDesk. Changement de matériel réseau (switch, firewall, imprimantes).</p>
+          <div class="timeline-tags">
+            <span class="tag">Windows Server</span>
+            <span class="tag">AnyDesk</span>
+            <span class="tag">Switch</span>
+            <span class="tag">Firewall</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Oct. – Déc. 2023</div>
+          <div class="timeline-title">Stagiaire / Intérimaire — Administration Système & Réseau</div>
+          <div class="timeline-company">CI Solutions · Lons</div>
+          <p class="timeline-desc">Maintenance préventive et corrective des infrastructures réseau. Support utilisateurs et résolution d'incidents techniques.</p>
+          <div class="timeline-tags">
+            <span class="tag">Active Directory</span>
+            <span class="tag">Réseau</span>
+            <span class="tag">Support</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Jan. – Mars 2023</div>
+          <div class="timeline-title">Stagiaire — Administration Système & Réseau</div>
+          <div class="timeline-company">CI Solutions · Lons</div>
+          <p class="timeline-desc">Déploiement de solutions réseau. Administration des services système et participation aux projets d'infrastructure clients.</p>
+          <div class="timeline-tags">
+            <span class="tag">PROXMOX</span>
+            <span class="tag">Virtualisation</span>
+            <span class="tag">PowerShell</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-date">Mai – Juin 2022</div>
+          <div class="timeline-title">Stagiaire — Administration Système & Réseau</div>
+          <div class="timeline-company">CI Solutions · Lons</div>
+          <p class="timeline-desc">Premier stage en entreprise. Découverte de l'environnement professionnel IT et participation aux opérations d'administration système.</p>
+          <div class="timeline-tags">
+            <span class="tag">Windows</span>
+            <span class="tag">Réseau</span>
+            <span class="tag">Infrastructure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FORMATION -->
+  <section id="formation">
+    <div class="section-inner">
+      <p class="section-label reveal">Diplômes</p>
+      <h2 class="reveal">Formation</h2>
+      <div class="formation-grid">
+        <div class="formation-card reveal">
+          <div class="formation-year">2024 – 2026 · En cours</div>
+          <div class="formation-degree">BTS SIO — Option SISR</div>
+          <div class="formation-school">Solutions d'Infrastructure, Systèmes et Réseaux<br>Lycée St John Perse · Pau</div>
+        </div>
+        <div class="formation-card reveal">
+          <div class="formation-year">2021 – 2024 · Obtenu</div>
+          <div class="formation-degree">BAC Pro Systèmes Numériques</div>
+          <div class="formation-school">Option RISC — Réseaux Informatiques & Systèmes Communiquants<br>Lycée St Joseph · Hasparren</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- COMPETENCES -->
+  <section id="competences">
+    <div class="section-inner">
+      <p class="section-label reveal">Savoir-faire</p>
+      <h2 class="reveal">Compétences<br>Techniques</h2>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-icon">🌐</div>
+          <div class="skill-title">Réseaux</div>
+          <div class="skill-items">
+            <span class="skill-pill">IP / IPv6</span>
+            <span class="skill-pill">DHCP</span>
+            <span class="skill-pill">VLAN</span>
+            <span class="skill-pill">Switch</span>
+            <span class="skill-pill">Routeur</span>
+            <span class="skill-pill">Spanning Tree</span>
+            <span class="skill-pill">NAPT</span>
+            <span class="skill-pill">Bande passante</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🖥️</div>
+          <div class="skill-title">Systèmes</div>
+          <div class="skill-items">
+            <span class="skill-pill">Windows Server</span>
+            <span class="skill-pill">Active Directory</span>
+            <span class="skill-pill">GPO</span>
+            <span class="skill-pill">Samba</span>
+            <span class="skill-pill">PROXMOX</span>
+            <span class="skill-pill">PowerShell</span>
+            <span class="skill-pill">FOG</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🔒</div>
+          <div class="skill-title">Cybersécurité</div>
+          <div class="skill-items">
+            <span class="skill-pill">PfSense</span>
+            <span class="skill-pill">SSH</span>
+            <span class="skill-pill">Fail2ban</span>
+            <span class="skill-pill">Proxy</span>
+            <span class="skill-pill">Sauvegarde</span>
+            <span class="skill-pill">Haute dispo.</span>
+            <span class="skill-pill">FTP</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">☁️</div>
+          <div class="skill-title">Cloud & Stockage</div>
+          <div class="skill-items">
+            <span class="skill-pill">NextCloud</span>
+            <span class="skill-pill">Cloud</span>
+            <span class="skill-pill">Lecteurs réseaux</span>
+            <span class="skill-pill">Réplication</span>
+            <span class="skill-pill">Tâches planifiées</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">📡</div>
+          <div class="skill-title">Téléphonie & Sans-fil</div>
+          <div class="skill-items">
+            <span class="skill-pill">ToIP</span>
+            <span class="skill-pill">Asterisk</span>
+            <span class="skill-pill">WiFi</span>
+            <span class="skill-pill">Bornes d'accès</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">🌍</div>
+          <div class="skill-title">Web & Serveurs</div>
+          <div class="skill-items">
+            <span class="skill-pill">DNS</span>
+            <span class="skill-pill">LAMP</span>
+            <span class="skill-pill">WordPress</span>
+            <span class="skill-pill">HTML/CSS/PHP</span>
+            <span class="skill-pill">Bind9</span>
+            <span class="skill-pill">Odoo</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="reveal" style="margin-top:4rem; font-size:1.75rem;">Référentiel BTS SIO SISR</h2>
+      <div class="bts-grid">
+        <div class="bts-card reveal">
+          <div class="bts-number">01</div>
+          <div class="bts-title">Support & Mise à disposition</div>
+          <ul class="bts-items">
+            <li>Gestion du patrimoine informatique</li>
+            <li>Réponse aux incidents & assistance</li>
+            <li>Présence en ligne de l'organisation</li>
+            <li>Travail en mode projet</li>
+            <li>Mise à disposition des services</li>
+            <li>Développement professionnel</li>
+          </ul>
+        </div>
+        <div class="bts-card reveal">
+          <div class="bts-number">02</div>
+          <div class="bts-title">Administration Systèmes & Réseaux</div>
+          <ul class="bts-items">
+            <li>Conception d'une solution d'infrastructure</li>
+            <li>Installation, test & déploiement</li>
+            <li>Exploitation, dépannage & supervision</li>
+          </ul>
+        </div>
+        <div class="bts-card reveal">
+          <div class="bts-number">03</div>
+          <div class="bts-title">Cybersécurité des Services</div>
+          <ul class="bts-items">
+            <li>Protection des données personnelles</li>
+            <li>Identité numérique de l'organisation</li>
+            <li>Sécurisation des équipements</li>
+            <li>Disponibilité & confidentialité</li>
+            <li>Cybersécurisation d'infrastructure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-wrapper">
+        <div class="contact-info reveal">
+          <p class="section-label">Disponible</p>
+          <h2>Prenons<br>Contact</h2>
+          <p class="contact-desc">N'hésitez pas à me contacter pour toute opportunité de stage, d'alternance ou pour échanger sur mes compétences.</p>
+          <div class="contact-links">
+            <a href="mailto:schianoenzo26@gmail.com" class="contact-link-item">
+              <div class="contact-link-icon">✉️</div>
+              <div>
+                <div class="contact-link-label">Email</div>
+                <div class="contact-link-value">schianoenzo26@gmail.com</div>
+              </div>
+            </a>
+            <a href="tel:+33638867855" class="contact-link-item">
+              <div class="contact-link-icon">📱</div>
+              <div>
+                <div class="contact-link-label">Téléphone</div>
+                <div class="contact-link-value">+33 06 38 86 78 55</div>
+              </div>
+            </a>
+            <div class="contact-link-item">
+              <div class="contact-link-icon">📍</div>
+              <div>
+                <div class="contact-link-label">Localisation</div>
+                <div class="contact-link-value">Pau, France</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form reveal">
+          <div class="form-group">
+            <label>Votre nom</label>
+            <input type="text" placeholder="Jean Dupont">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="jean@exemple.com">
+          </div>
+          <div class="form-group">
+            <label>Sujet</label>
+            <input type="text" placeholder="Opportunité de stage...">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Votre message..."></textarea>
+          </div>
+          <button class="btn-primary" style="width:100%; justify-content:center;">Envoyer le message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, (entry.target.dataset.delay || 0) * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach((el, i) => {
+      el.dataset.delay = i % 4;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
