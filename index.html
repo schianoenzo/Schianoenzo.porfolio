@@ -1056,6 +1056,7 @@
             <li><button onclick="showPage('cv')">CV</button></li>
             <li><button onclick="showPage('competences')">Compétences</button></li>
             <li><button onclick="showPage('veille')">Veille</button></li>
+            <li><button onclick="showPage('rgsystem')">RGSystem</button></li>
             <li><button onclick="showPage('contact')">Contact</button></li>
         </ul>
     </nav>
@@ -1490,6 +1491,74 @@
         </footer>
     </div>
 
+    <!-- PAGE RGSYSTEM -->
+    <div id="page-rgsystem" class="page">
+        <div class="veille-hero" style="padding-bottom:1rem;">
+            <div class="veille-date-badge">💻 Solutions IT · Logiciel SaaS</div>
+            <h1 class="reveal">Introduction à<br><span class="highlight">RGSystem</span></h1>
+            <p class="reveal">Découvrez la solution SaaS française incontournable pour la supervision (RMM), la sauvegarde et la sécurité des infrastructures informatiques, conçue pour les MSP et équipes DSI.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <section style="padding-top:4rem;">
+            <div class="section-inner" style="max-width: 900px;">
+                <div class="rgsystem-gallery reveal" style="display:flex; flex-direction:column; gap:4rem;">
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">01. Introduction à RGSystem</h2>
+                        <img src="Introduction-a-RGSystem/1_Introduction-a-RGSystem.png" alt="Introduction à RGSystem" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">02. Qu'est-ce que RGSystem ?</h2>
+                        <img src="Introduction-a-RGSystem/2_Quest-ce-que-RGSystem.png" alt="Qu'est ce que RGSystem" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">03. La Problématique Résolue</h2>
+                        <img src="Introduction-a-RGSystem/3_La-Problematique-Resolue.png" alt="La Problématique Résolue" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">04. Applications par Secteur</h2>
+                        <img src="Introduction-a-RGSystem/4_Applications-par-Secteur.png" alt="Applications par Secteur" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">05. Fonctionnalités Principales</h2>
+                        <img src="Introduction-a-RGSystem/5_Fonctionnalites-Principales.png" alt="Fonctionnalités Principales" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">06. Interface Utilisateur</h2>
+                        <img src="Introduction-a-RGSystem/6_Interface-Utilisateur.png" alt="Interface Utilisateur" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">07. Architecture et Fonctionnement</h2>
+                        <img src="Introduction-a-RGSystem/7_Architecture-et-Fonctionnement.png" alt="Architecture et Fonctionnement" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">08. Intégrations et Connectivité</h2>
+                        <img src="Introduction-a-RGSystem/8_Integrations-et-Connectivite.png" alt="Intégrations et Connectivité" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+                    
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">09. Avantages pour l'Infrastructure IT</h2>
+                        <img src="Introduction-a-RGSystem/9_Avantages-pour-lInfrastructure-IT.png" alt="Avantages pour l'Infrastructure IT" style="width:100%; border-radius:12px; border:1px solid var(--border);">
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 <span>Enzo Schiano</span> — Étudiant BTS SIO SISR · Pau, France</p>
+        </footer>
+    </div>
+
     <!-- PAGE CONTACT -->
     <div id="page-contact" class="page">
         <section id="contact" style="padding-top:6rem; background:var(--bg2);">
@@ -1549,7 +1618,7 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
             document.getElementById('page-' + name).classList.add('active');
-            const labels = ['accueil', 'cv', 'competences', 'veille', 'contact'];
+            const labels = ['accueil', 'cv', 'competences', 'veille', 'rgsystem', 'contact'];
             const idx = labels.indexOf(name);
             document.querySelectorAll('.nav-tabs button')[idx]?.classList.add('active');
             window.scrollTo(0, 0);
