@@ -13,7 +13,7 @@
             --accent: #e0e0e0;
             --accent2: #ffffff;
             --text: #f0f0f0;
-            --muted: #777777;
+            --muted: #ffffff;
             --border: rgba(255, 255, 255, 0.08);
             --card: rgba(255, 255, 255, 0.03);
         }
@@ -181,7 +181,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #aaaaaa;
+            color: #ffffff;
             margin-bottom: 2rem;
             animation: fadeUp 0.6s ease both;
         }
@@ -358,7 +358,7 @@
 
         .timeline-date {
             font-size: 0.75rem;
-            color: #aaa;
+            color: #ffffff;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -394,7 +394,7 @@
         .tag {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
+            color: #ffffff;
             font-size: 0.72rem;
             padding: 0.2rem 0.65rem;
             border-radius: 100px;
@@ -444,7 +444,7 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: #aaa;
+            color: #ffffff;
             font-weight: 600;
             margin-bottom: 0.75rem;
         }
@@ -548,7 +548,7 @@
             font-weight: 700;
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            color: #ccc;
+            color: #ffffff;
         }
 
         .bts-items {
@@ -570,7 +570,7 @@
             content: '›';
             position: absolute;
             left: 0;
-            color: #888;
+            color: #ffffff;
         }
 
         /* CONTACT */
@@ -704,7 +704,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #aaa;
+            color: #ffffff;
             margin-bottom: 1.5rem;
         }
 
@@ -821,12 +821,12 @@
 
         .compare-badge.old {
             background: rgba(255, 255, 255, 0.07);
-            color: #888;
+            color: #ffffff;
         }
 
         .compare-badge.new {
             background: rgba(255, 255, 255, 0.12);
-            color: #ddd;
+            color: #ffffff;
         }
 
         .compare-list {
@@ -850,16 +850,16 @@
             left: 0;
             font-size: 1.2rem;
             line-height: 1.1;
-            color: #555;
+            color: #ffffff;
         }
 
         .compare-list li.plus {
-            color: #ccc;
+            color: #ffffff;
         }
 
         .compare-list li.plus::before {
             content: '+';
-            color: #aaa;
+            color: #ffffff;
             font-size: 0.9rem;
             line-height: 1.4;
             font-weight: 700;
